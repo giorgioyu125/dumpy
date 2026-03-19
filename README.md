@@ -2,6 +2,8 @@
 
 A very simple and easy to read hexdump clone made with only one flag option (for now!) -C.
 
+![dumpy output](screenshots/output.jpg)
+
 ## Building the project
 
 ### Prerequisites

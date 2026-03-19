@@ -19,22 +19,29 @@ static inline size_t countDigits(size_t n) {
 
 int main(int argc, char *argv[]) {
     int canonical = 0;
-
+    char *filename = NULL;
     if (argc != 2 && argc != 3) {
-        printf("Bad argument. Example: %s <filepath> [-C]\n", argv[0]);
+        printf("Bad argument. Example: %s [-C] <filepath>\n", argv[0]);
         return EXIT_FAILURE;
     }
 
-    if (argc == 3) {
-        if (strcmp(argv[2], "-C") == 0) {
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-C") == 0) {
             canonical = 1;
-        } else {
-            printf("Unknown option: %s\n", argv[2]);
+        } else if (argv[i][0] == '-') {
+            printf("Unknown option: %s\n", argv[i]);
             return EXIT_FAILURE;
+        } else {
+            filename = argv[i];
         }
     }
 
-    FILE *file = fopen(argv[1], "rb");
+    if (filename == NULL) {
+        printf("No file specified.\n");
+        return EXIT_FAILURE;
+    }
+
+    FILE *file = fopen(filename, "rb");
     if (file == NULL) {
         printf("Errore: impossibile aprire il file.\n");
         return EXIT_FAILURE;
@@ -79,7 +86,7 @@ int main(int argc, char *argv[]) {
 
             printf("%0*zx ", (int)countDigits(size), offset);
 
-            if (canonical) {
+            if (canonical > 0) {
                 for (size_t i = 0; i < 16; i++) {
                     if (i < bytes_in_row) {
                         printf("%02x ", row[i]);

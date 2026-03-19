@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
-        printf("Errore: impossibile aprire il file.\n");
+        printf("Error: could not open file '%s'.\n", filename);
         return EXIT_FAILURE;
     }
 
